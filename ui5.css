@@ -1,0 +1,206 @@
+/* Main CSS file */
+/* This file is documented but is is assumed you have basic HTML5 knowledge (HTML, CSS & Javascript) */
+/* (c)copyright 2019 by VFXforth */
+/* 2019-06: GFW */
+
+/* -*- -*- -*- -*- -*- variables -*- -*- -*- -*- -*- */
+/* css variables
+ * put all custom design decisions into variables so your artist or internationalisation team
+ * has one place to change stuff. This can be edited with very little knowledge
+ */
+
+:root {
+    /* basic design */
+    --font-size: 14px;
+    --text-color: #333;
+    --background-color: #FFF;
+
+    /* scaffolding */
+    --header-height: 50px;
+    --header-padding: 10px;
+    --footer-height: 30px;
+    --aside-width: 200px;
+
+    /* scaffolding style */
+    --header-color: #521;
+    --header-background: #F20; /* note how we specify background instead of background-color to allow for greater designer flexibility later on */
+    --footer-color: var(--header-color); /* when using the same color, referencing is nicer than copying it */
+    --footer-background: var(--header-background);
+    --aside-color: var(--header-color); /* when using the same color, referencing is nicer than copying it */
+    --aside-background: var(--header-background);
+    --aside-hover-background: #F80;
+    --aside-font-size: 20px;
+    --main-color: #333;
+    --main-background: #FFF;
+}
+
+/* variables can be overwritten by scope; below the theme-night changes the colors */
+body.theme-night {
+    --header-color: #CAF;
+    --header-background: #20F; /* note how we specify background instead of background-color to allow for greater designer flexibility later on */
+    --footer-color: var(--header-color); /* when using the same color, referencing is nicer than copying it */
+    --footer-background: var(--header-background);
+    --aside-color: var(--header-color); /* when using the same color, referencing is nicer than copying it */
+    --aside-background: var(--header-background);
+    --aside-hover-background: #80F;
+    --main-color: #FFF;
+    --main-background: #333;
+}
+
+/* minimal normalize: make browser look the same */
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+/* switch to box-model including the border */
+* {
+    box-sizing: border-box;
+}
+
+a {
+    color: var(--link-color);
+}
+
+/* -*- -*- -*- -*- -*- main scaffolding -*- -*- -*- -*- -*- */
+
+/* +-----------------+
+ * |       | HEADER  | the scaffolding is done with css grids
+ * |       +---------+ this allows for easy adoption like moving ASIDE to the right
+ * | ASIDE | CONTENT | or switching HEADER and FOOTER
+ * |       +---------+ without rearranging anything in the DOM
+ * |       | FOOTER  |
+ * +-------+---------+
+ */
+body {
+    font-size: var(--font-size); /* base font size to infer relative sizes from */
+    color: var(--text-color);
+    background-color: var(--background-color);
+
+    /* scaffolding - keep the above picture in mind when reading this, feel free to rearrange the elements to your liking */
+    display: grid;
+    grid-template-rows: var(--header-height) 1fr var(--footer-height);
+    grid-template-columns: var(--aside-width) 1fr;
+    grid-template-areas: /* note how this text documents the layout easily */
+        'aside header'
+        'aside main'
+        'aside footer';
+}
+
+/* the body functions as the main scaffolding wrapper, header, footer, aside and main must be direct children of it */
+header {
+    grid-area: header; /* tell element which template-area to occupy */
+    color: var(--header-color);
+    background: var(--header-background);
+}
+header h1 {
+    /* use calc instead of predefined values, so everything will adhere to variable changes */
+    --font-size: calc( var(--header-height) - 2 * var(--header-padding) );
+    font-size: var(--font-size);
+    margin: 0;                          /* remove any margin (especially top margins can be quite big depending on the browser */
+    line-height: var(--header-height);  /* center vertically - no need for explicit padding */
+    padding-left: calc( var(--header-padding)/2 );  /*  padding from aside is okay, otherwise it would look to cramped */
+}
+header h1 img {
+    /* still in header h1 scope, so we can access --font-size defined in header h1 */
+    height: var(--font-size);
+    vertical-align: bottom;
+    padding-bottom: var(--header-padding);
+}
+
+footer {
+    grid-area: footer; /* tell element which template-area to occupy */
+    color: var(--footer-color);
+    background: var(--footer-background);
+}
+
+aside {
+    grid-area: aside;
+    color: var(--aside-color);
+    background: var(--aside-background);
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    text-align: center;
+}
+aside a {
+    text-decoration: none;
+    padding: 16px 0;
+    font-size: var(--aside-font-size);
+}
+aside a:hover {
+    background-color: var(--aside-hover-background);
+}
+aside a img {
+    display: block;
+    margin: 0 auto;
+    width: 30%;
+    min-width: 48px;
+}
+
+main {
+    grid-area: main;
+    color: var(--main-color);
+    background: var(--main-background);
+    /* make children 100% height */
+    overflow-y: auto;
+}
+
+main section {
+    display: none;
+}
+main section:target {
+    display: block;
+}
+
+/* -*- -*- -*- -*- -*- state -*- -*- -*- -*- -*- */
+/* state provider classes */
+.vfx-connected-label::before {
+    content: 'Disconnected';
+    color: #F00;
+    padding: 5px 5px;
+
+    text-shadow: 2px  2px 2px #000,
+                 2px -2px 2px #000,
+                -2px -2px 2px #000,
+                -2px  2px 2px #000;
+}
+
+body.vfx-connected .vfx-connected-label::before {
+    content: 'Connected';
+    color: #0F0;
+}
+
+/* -*- -*- -*- -*- -*- content style -*- -*- -*- -*- -*- */
+/* from here on the css become application specific */
+
+/* toggle switch for night-mode */
+header button[name="night-mode"] {
+    float: right;
+
+    border: none; /* show button as just the emoji */
+    background: transparent;
+    outline: none;
+    
+    cursor: pointer;
+    font-size: calc( var(--header-height) - 2 * var(--header-padding) );
+}
+
+header button[name="night-mode"] span.day { display: none; }
+body.theme-night header button[name="night-mode"] span.night { display: none; }
+body.theme-night header button[name="night-mode"] span.day   { display: inline; }
+
+main vfx-terminal {
+    /* border: 3px solid red */
+}
+
+footer .vfx-connected-label::before {
+    display: block;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+
+    border-right: none;
+    border-bottom: none;
+}

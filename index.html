@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+    <!-- html5 always starts with the simple doctype and must include a language in the html root tag -->
+    <head>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/> <!-- tell the browser we are responsive -->
+        <link rel="shortcut icon" href="/favicon.ico"/>
+        <link rel="stylesheet" type="text/css" href="ui5.css"/>
+        <title>ui5</title>
+    </head>
+    <body class="theme-night">
+        <!-- main scaffolding -->
+        <header>
+            <button name="night-mode" title="toggle night mode">
+                <span class="night">🌃</span>
+                <span class="day">🏙</span>
+            </button>
+            <h1>
+                <img src="/images/ui5.svg"/>
+                ui5
+            </h1>
+        </header>
+        <aside>
+            <!-- section switches -->
+            <a href="#terminal">
+                <img src="/images/terminal.svg" alt="Terminal">
+                <span>Terminal</span>
+            </a>
+            <a href="#help">
+                <img src="/images/help.svg" alt="Help">
+                <span>Help</span>
+            </a>
+        </aside>
+        <main>
+            <!-- main content goes here -->
+            <section id="terminal">
+                <vfx-terminal></vfx-terminal>
+            </section>
+            <section id="help">
+                <h2>Help</h2>
+                <p>
+                    There is help, that needs to be found ;)
+                </p>
+            </section>
+        </main>
+        <footer>
+            MPE confidential internal
+            <div class="vfx-connected-label"></div>
+        </footer>
+        <!-- we are using ES6, just load the main module, do all else in there -->
+        <script src="js/main.js" type="module"></script>
+    </body>
+</html>
