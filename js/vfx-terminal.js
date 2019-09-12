@@ -8,25 +8,25 @@ template.innerHTML = `
             font-family: monospace;
             font-size: 14px;
         }
-        .asd {
-            border: 5px dashed #030;
+        .terminalWrapper {
+            border: 5px dashed var( --border-color, #A00 );
         }
-        .asd .input {
-            color: #0FF;
+        .terminalWrapper .input {
+            color: var( --input-color, #FFF );
         }
         input[name="source"] {
             /* todo: take styles from global stylsheet, access custom properties? */
             font-family: monospace;
-            font-size: 14px;
+            font-size: 16px;
 
-            color: #AFF;
-            background-color: transparent;
+            color: var( --input-color, #FFF );
+            background-color: var( --input-background, transparent );
             border: none;
             display: block;
             width: 100%;
         }
     </style>
-    <div class="asd">
+    <div class="terminalWrapper">
         VFX Terminal
         <button>Connect</button>
         <input name="source" type="text" autofocus/>
@@ -47,7 +47,7 @@ class VfxTerminal extends HTMLElement {
         });
         //shadow.querySelector("button").remove()
 
-        this.textContainer = shadow.querySelector("div.asd");
+        this.textContainer = shadow.querySelector("div.terminalWrapper");
         this.source = shadow.querySelector("input[name='source']");
 
         this.source.addEventListener("keyup", evt => {

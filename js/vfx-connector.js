@@ -32,15 +32,12 @@ function connect() {
         ws = new WebSocket( url, ["ui5"] );
     } catch( err ) {
         console.log( "Websocket open-error, attempting reconnect...", err );
-        //return window.setTimeout( connect, 5000 );
+        return window.setTimeout( connect, 5000 );
     }
     ws.onopen = () => {
         connected = true;
         onOpen();
         window.ws = ws;
-        //window.setTimeout( () => {
-        //    ws.send("1 2 + .\r\n");
-        //}, 2000 );
     };
     ws.onmessage = onMessage;
     ws.onclose = function() {
@@ -49,7 +46,7 @@ function connect() {
             onClose();
             connected = false;
         }
-        //window.setTimeout( connect, 5000 );
+        window.setTimeout( connect, 500 );
     }
 }
 

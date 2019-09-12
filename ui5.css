@@ -193,6 +193,14 @@ body.theme-night header button[name="night-mode"] span.day   { display: inline; 
 
 main vfx-terminal {
     /* border: 3px solid red */
+    --input-color: #00F;
+    --input-background: #DDF;
+    --border-color: #EEE;
+}
+body.theme-night main vfx-terminal {
+    --input-color: #AFF;
+    --input-background: #558;
+    --border-color: #333;
 }
 
 footer .vfx-connected-label::before {
