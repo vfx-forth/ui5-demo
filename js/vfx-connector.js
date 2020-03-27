@@ -1,6 +1,6 @@
 /* vfx-connector: websocket connector to vfx-host */
 
-const url = location.origin.replace(/^https?:/, 'ws:') + location.pathname + "ws";
+const url = (location.protocol == "https:"?"wss":"ws") + "://" +location.host + location.pathname + "ws";
 
 function onOpen() {
     document.body.classList.add("vfx-connected");
