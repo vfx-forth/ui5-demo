@@ -45,6 +45,47 @@
     wait-socket-empty ;
 ' app-manual add-route-get /man
 
+: app-chunked-headers
+\ *G start headers
+\ *P Note that 0 0 http-chunk denotes the end of the transfer. No more chunks are allowed afterwards.
+    s" 200 OK" http-status
+    s" Transfer-Encoding: chunked" http-header
+    s" Content-Type: text/plain;encoding=utf8" http-header
+    crlf ;
+
+defer app-led-on-hook
+defer app-led-off-hook
+
+:noname s" Hook not assigned" http-chunk ;
+dup is app-led-on-hook
+    is app-led-off-hook
+
+variable led-state
+0 led-state !
+
+: app-led
+    app-chunked-headers
+    led-state @ if
+        s" Led is on" http-chunk
+    else
+        s" Led is off" http-chunk
+    then
+    http-chunk-end ;
+' app-led add-route-get /led
+
+: app-led-on
+    app-chunked-headers
+    app-led-on-hook
+    http-chunk-end ;
+' app-led-on add-route-get /led/on
+
+: app-led-off
+    app-chunked-headers
+    app-led-off-hook
+    http-chunk-end ;
+' app-led-off add-route-get /led/off
+
+
 WebSocketServerDev: mywss
 255 constant /wsinp
 /wsinp buffer: wsinp
