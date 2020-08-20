@@ -31,7 +31,7 @@ spec:
         valueFrom:
           secretKeyRef:
             name: jenkins-registry-login
-            key: folder
+            key: folder-vfxforth
   - name: docker-daemon
     image: docker:stable-dind
     securityContext:
